@@ -88,7 +88,8 @@ local function hasHarness()
 end
 
 local function loadSettings()
-    QBCore.Functions.Notify(Lang:t("notify.hud_settings_loaded"), "success")
+    --QBCore.Functions.Notify(Lang:t("notify.hud_settings_loaded"), "success")
+    lib.notify({ description = Lang:t("notify.hud_settings_loaded"), type = 'success' })
     Wait(1000)
     TriggerEvent("hud:client:LoadMap")
 end
@@ -185,7 +186,8 @@ RegisterKeyMapping('menu', Lang:t('info.open_menu'), 'keyboard', Config.OpenMenu
 -- Reset hud
 local function restartHud()
     TriggerEvent("hud:client:playResetHudSounds")
-    QBCore.Functions.Notify(Lang:t("notify.hud_restart"), "error")
+    --QBCore.Functions.Notify(Lang:t("notify.hud_restart"), "error")
+    lib.notify({ description = Lang:t("notify.hud_restart"), type = 'error' })
     Wait(1500)
     if IsPedInAnyVehicle(PlayerPedId()) then
         SendNUIMessage({
@@ -214,7 +216,8 @@ local function restartHud()
         show = true,
     })
     Wait(500)
-    QBCore.Functions.Notify(Lang:t("notify.hud_start"), "success")
+    --QBCore.Functions.Notify(Lang:t("notify.hud_start"), "success")
+    lib.notify({ description = Lang:t("notify.hud_start"), type = 'success' })
     SendNUIMessage({
         action = 'menu',
         topic = 'restart',
@@ -413,7 +416,8 @@ RegisterNetEvent("hud:client:LoadMap", function()
             Wait(150)
         end
         if Menu.isMapNotifChecked then
-            QBCore.Functions.Notify(Lang:t("notify.load_square_map"))
+            --QBCore.Functions.Notify(Lang:t("notify.load_square_map"))
+            lib.notify({ description = Lang:t("notify.load_square_map"), type = 'inform' })
         end
         SetMinimapClipType(0)
         AddReplaceTexture("platform:/textures/graphics", "radarmasksm", "squaremap", "radarmasksm")
@@ -442,7 +446,8 @@ RegisterNetEvent("hud:client:LoadMap", function()
         end
         Wait(1200)
         if Menu.isMapNotifChecked then
-            QBCore.Functions.Notify(Lang:t("notify.loaded_square_map"))
+            --QBCore.Functions.Notify(Lang:t("notify.loaded_square_map"))
+            lib.notify({ description = Lang:t("notify.loaded_square_map"), type = 'success' })
         end
     elseif Menu.isToggleMapShapeChecked == "circle" then
         RequestStreamedTextureDict("circlemap", false)
@@ -450,7 +455,8 @@ RegisterNetEvent("hud:client:LoadMap", function()
             Wait(150)
         end
         if Menu.isMapNotifChecked then
-            QBCore.Functions.Notify(Lang:t("notify.load_circle_map"))
+            --QBCore.Functions.Notify(Lang:t("notify.load_circle_map"))
+            lib.notify({ description = Lang:t("notify.load_circle_map"), type = 'inform' })
         end
         SetMinimapClipType(1)
         AddReplaceTexture("platform:/textures/graphics", "radarmasksm", "circlemap", "radarmasksm")
@@ -479,7 +485,8 @@ RegisterNetEvent("hud:client:LoadMap", function()
         end
         Wait(1200)
         if Menu.isMapNotifChecked then
-            QBCore.Functions.Notify(Lang:t("notify.loaded_circle_map"))
+            --QBCore.Functions.Notify(Lang:t("notify.loaded_circle_map"))
+            lib.notify({ description = Lang:t("notify.loaded_circle_map"), type = 'inform' })
         end
     end
 end)
@@ -579,12 +586,14 @@ RegisterNUICallback('cinematicMode', function(data, cb)
     if data.checked then
         CinematicShow(true)
         if Menu.isCinematicNotifChecked then
-            QBCore.Functions.Notify(Lang:t("notify.cinematic_on"))
+            --QBCore.Functions.Notify(Lang:t("notify.cinematic_on"))
+            lib.notify({ description = Lang:t("notify.cinematic_on"), type = 'success' })
         end
     else
         CinematicShow(false)
         if Menu.isCinematicNotifChecked then
-            QBCore.Functions.Notify(Lang:t("notify.cinematic_off"), 'error')
+            --QBCore.Functions.Notify(Lang:t("notify.cinematic_off"), 'error')
+            lib.notify({ description = Lang:t("notify.cinematic_off"), type = 'inform' })
         end
         local player = PlayerPedId()
         local vehicle = GetVehiclePedIsIn(player)
@@ -727,9 +736,11 @@ RegisterCommand('+engine', function()
     local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
     if vehicle == 0 or GetPedInVehicleSeat(vehicle, -1) ~= PlayerPedId() then return end
     if GetIsVehicleEngineRunning(vehicle) then
-        QBCore.Functions.Notify(Lang:t("notify.engine_off"))
+        --QBCore.Functions.Notify(Lang:t("notify.engine_off"))
+        lib.notify({ description = Lang:t("notify.engine_off"), type = 'inform' })
     else
-        QBCore.Functions.Notify(Lang:t("notify.engine_on"))
+        --QBCore.Functions.Notify(Lang:t("notify.engine_on"))
+        lib.notify({ description = Lang:t("notify.engine_on"), type = 'success' })
     end
     SetVehicleEngineOn(vehicle, not GetIsVehicleEngineRunning(vehicle), false, true)
 end)
@@ -1039,7 +1050,8 @@ CreateThread(function()
                 if exports[Config.FuelScript]:GetFuel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left
                     if Menu.isLowFuelChecked then
                         TriggerServerEvent("InteractSound_SV:PlayOnSource", "pager", 0.10)
-                        QBCore.Functions.Notify(Lang:t("notify.low_fuel"), "error")
+                        --QBCore.Functions.Notify(Lang:t("notify.low_fuel"), "error")
+                        lib.notify({ description = Lang:t("notify.low_fuel"), type = 'inform' })
                         Wait(60000) -- repeats every 1 min until empty
                     end
                 end

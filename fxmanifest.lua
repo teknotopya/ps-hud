@@ -10,6 +10,7 @@ shared_scripts {
 	'locales/*.lua',
 	'config.lua',
 	'uiconfig.lua'
+	'@ox_lib/init.lua'
 }
 
 client_script 'client.lua'
